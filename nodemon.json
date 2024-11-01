@@ -1,0 +1,5 @@
+{
+    "watch": "./src",
+    "exc": "js",
+    "exec": "node ./src/server.js"
+}
