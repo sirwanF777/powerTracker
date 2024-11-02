@@ -1,5 +1,5 @@
 {
-    "watch": "./src",
+    "watch": "./",
     "exc": "js",
-    "exec": "node ./src/server.js"
+    "exec": "node ./server.js"
 }
