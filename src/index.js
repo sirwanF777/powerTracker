@@ -27,10 +27,9 @@ const startExpress = async function(app) {
   await app.use("/api", routes);
 
   app.use((req, res, next) => {
-    const err = new apiError(404, "Not Found");
-    next(err);
+    const error = new apiError(404, "Not Found");
+    next(error);
   });
-
   app.use(errorHandler);
 };
 
