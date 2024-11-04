@@ -1,16 +1,17 @@
+// ./src/routers/userRouter.js
 const express = require('express');
 const router = express.Router();
 const logger = require('../config/logger');
 
+const { signup, } = require("../controllers/userController");
 
-router.get("/", (req, res) => {
-    logger.http(`Request(GET) Was Successfull.`);
-    res.send({
-        message: `Request(GET) Was Successfull.`
-    });
-});
 
-router.post("/", (req, res) => {
+router.post(
+    "/signup",
+    [signup]
+);
+
+router.post("/login", (req, res) => {
     logger.http(`Request(POST) Was Successfull.`);
     res.send({
         message: `Request(POST) Was Successfull.`
