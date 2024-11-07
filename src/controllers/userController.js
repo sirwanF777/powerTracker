@@ -24,5 +24,17 @@ const signup = async (req, res, next) => {
     }
 }
 
+const logout = async (req, res, next) => {
+    try {
+        res.clearCookie("jwt");
+        res.status(200).json({ message: "Logged Out Successfully." });
+    } catch (error) {
+        next(error instanceof apiError ? error : new apiError(500, error.message));
+    }
+}
 
-module.exports = {signup, }
+
+module.exports = {
+    signup,
+    logout,
+}

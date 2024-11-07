@@ -3,12 +3,18 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../config/logger');
 
-const { signup, } = require("../controllers/userController");
+const {
+    signup,
+    login,
+    logout,
+} = require("../controllers/userController");
+const { preventSignupIfLoggedIn, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
+const validateUser = require('../middlewares/user/validateUser');
 
 
 router.post(
     "/signup",
-    [signup]
+    [preventSignupIfLoggedIn, validateUser, signup]
 );
 
 router.post("/login", (req, res) => {
@@ -17,6 +23,8 @@ router.post("/login", (req, res) => {
         message: `Request(POST) Was Successfull.`
     });
 });
+
+router.post("/logout", [verifyToken, logout]);
 
 
 module.exports = router;
