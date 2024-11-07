@@ -11,8 +11,8 @@ const signup = async (userName, password) => {
         const newUser = new userModel({userName, password});
         await newUser.save();
     
-        const {token} = createToken(userID=newUser._id);
-    
+        const token = await createToken(userID=newUser._id);
+
         logger.info(`New User Information Has Been Successfully Registered. ID: ${newUser._id}`);
         return {"message": `New User Information Has Been Successfully Registered.`, token};
     } catch (error) {
