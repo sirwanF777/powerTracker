@@ -8,7 +8,7 @@ const {
     login,
     logout,
 } = require("../controllers/userController");
-const { preventSignupIfLoggedIn, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
+const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
 const validateUser = require('../middlewares/user/validateUser');
 
 
@@ -17,12 +17,10 @@ router.post(
     [preventSignupIfLoggedIn, validateUser, signup]
 );
 
-router.post("/login", (req, res) => {
-    logger.http(`Request(POST) Was Successfull.`);
-    res.send({
-        message: `Request(POST) Was Successfull.`
-    });
-});
+router.post(
+    "/login",
+    [preventDuplicateLogin, validateUser, login]
+);
 
 router.post("/logout", [verifyToken, logout]);
 

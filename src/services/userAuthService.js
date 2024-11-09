@@ -1,9 +1,9 @@
 // ./src/services/userAuthService.js
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 const apiError = require("../utils/apiError");
 const logger = require("../config/logger");
-require("dotenv").config();
 
 
 const signup = async (userName, password) => {  
@@ -24,6 +24,29 @@ const signup = async (userName, password) => {
     }
 }
 
+const login = async (userName, password) => {
+    try {
+        const user = await userModel.findOne({ userName });
+        if(user){
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return { "message": "Password Is Incorrect." }
+                // throw new apiError(401, "Password Is Incorrect.");
+            }
+
+            const token = await createToken({ userID: user._id });
+            
+            logger.info(`User Login Was Successful. userName: ${user.userName}, ID: ${user._id}`);
+
+            return { "message": `User Login Was Successful. Name: ${userName}`, token }
+        } else {
+            return {"message": `Use Name Is Incorrect.`}
+        }
+    } catch (error) {
+        throw (error instanceof apiError ? error : new apiError(500, error.message)); 
+    }
+}
+
 
 const createToken = (userID) => {
     try {
@@ -34,4 +57,7 @@ const createToken = (userID) => {
 }
 
 
-module.exports = {signup, }
+module.exports = {
+    signup,
+    login,
+}
