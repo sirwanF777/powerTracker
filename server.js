@@ -1,8 +1,9 @@
 // ./src/server.js
 const express = require('express');
 const app = express();
-const { mongoConnect } = require("./config/db");
-const logger = require('./config/logger');
+const { mongoConnect } = require("./src/config/db");
+const logger = require('./src/config/logger');
+const startExpress = require("./src/index.js");
 
 require("dotenv").config();
 
@@ -21,3 +22,4 @@ const startServer = async () => {
 
 startServer();
 mongoConnect();
+startExpress(app);
