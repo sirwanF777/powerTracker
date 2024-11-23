@@ -2,27 +2,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const routes = require("./routers");
+const cors = require('cors');
 
 const errorHandler = require("./middlewares/errorHandling");
 const apiError = require("./utils/apiError");
-
-// const httpstatus = require("http-status-codes");
-// const cors = require("cors");
-// const path = require("path");
+const routes = require("./routers");
 
 
 const startExpress = async function(app) {
-  app.use(express.json());
   app.use(cookieParser());
   app.use(bodyParser.json());
+  // app.use(express.json());
   
-  // app.use(express.static(path.join(__dirname, "../media")));
-  // app.use(
-  //   cors({
-  //     origin: "*",
-  //   })
-  // );
+  app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    credentials: true
+  }));
 
   await app.use("/api", routes);
 
