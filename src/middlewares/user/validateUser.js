@@ -18,8 +18,15 @@ const userValidationSchema = Joi.object({
             'string.empty': 'Password cannot be empty',
             'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
             'any.required': 'Password is required',
-        })
+        }),
+    email: Joi.string().email().required().messages({
+        'string.base': 'Email must be a string',
+        'string.empty': 'Email cannot be empty',
+        'string.email': 'Email must be a valid email address',
+        'any.required': 'Email is required',
+    }),
 });
+
 
 const validateUser = async (req, res, next) => {
     try {
