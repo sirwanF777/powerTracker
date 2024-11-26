@@ -6,15 +6,15 @@ const apiError = require("../utils/apiError");
 const logger = require("../config/logger");
 
 
-const signup = async (userName, password) => {  
+const signup = async (userName, password, email) => {  
     try {
-        const newUser = new userModel({userName, password});
+        const newUser = new userModel({ userName, password, email });
         await newUser.save();
     
         const token = await createToken(userID=newUser._id);
 
         logger.info(`New User Information Has Been Successfully Registered. ID: ${newUser._id}`);
-        return {"message": `New User Information Has Been Successfully Registered.`, token};
+        return {"message": `New User Information Has Been Successfully Registered.`, token, user: newUser};
     } catch (error) {
         if (error instanceof apiError) {
             throw error; 
@@ -38,7 +38,7 @@ const login = async (userName, password) => {
             
             logger.info(`User Login Was Successful. userName: ${user.userName}, ID: ${user._id}`);
 
-            return { "message": `User Login Was Successful. Name: ${userName}`, token }
+            return { "message": `User Login Was Successful. Name: ${userName}`, token, user }
         } else {
             return {"message": `Use Name Is Incorrect.`}
         }
