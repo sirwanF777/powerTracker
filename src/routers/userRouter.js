@@ -9,17 +9,17 @@ const {
     logout,
 } = require("../controllers/userController");
 const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
-const validateUser = require('../middlewares/user/validateUser');
+const { userValidateSignup, userValidateLogin } = require('../middlewares/user/userValidate');
 
 
 router.post(
     "/signup",
-    [preventSignupIfLoggedIn, validateUser, signup]
+    [preventSignupIfLoggedIn, userValidateSignup, signup]
 );
 
 router.post(
     "/login",
-    [preventDuplicateLogin, validateUser, login]
+    [preventDuplicateLogin, userValidateLogin, login]
 );
 
 router.post("/logout", [verifyToken, logout]);
