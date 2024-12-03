@@ -7,9 +7,9 @@ const {
     signup,
     login,
     logout,
-} = require("../controllers/userController");
-const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
-const { userValidateSignup, userValidateLogin } = require('../middlewares/user/userValidate');
+} = require("../controllers/userAuthController");
+const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/userAuthMiddleware");
+const { userValidateSignup, userValidateLogin } = require('../validations/userAuthValidation');
 
 
 router.post(
