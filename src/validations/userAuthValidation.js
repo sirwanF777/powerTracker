@@ -1,6 +1,6 @@
 // ./src/middleware/user/validateUser.js
 const Joi = require('joi');
-const apiError = require('../../utils/apiError');
+const apiError = require('../utils/apiError');
 
 
 const userValidationSignupSchema = Joi.object({
