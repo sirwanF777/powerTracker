@@ -12,6 +12,7 @@ const consumption = async (userName, type) => {
         switch (type) {
             case 'hourly':
                 return data.map(item => ({
+                    date: item.date.toISOString().split('T')[0],
                     hour: item.hour,
                     demand: item.demand_kWh,
                 }));
@@ -29,17 +30,17 @@ const consumption = async (userName, type) => {
     }
 };
 
-const groupByDate = (data, period) => {
+const groupByDate = (data, date) => {
     const grouped = {};
     data.forEach(item => {
-        const dateKey = generateDateKey(item.date, period);
+        const dateKey = generateDateKey(item.date, date);
         if (!grouped[dateKey]) {
             grouped[dateKey] = 0;
         }
         grouped[dateKey] += item.demand_kWh;
     });
 
-    return Object.entries(grouped).map(([key, demand]) => ({ period: key, demand }));
+    return Object.entries(grouped).map(([key, demand]) => ({ date: key, demand }));
 };
 
 const generateDateKey = (date, period) => {

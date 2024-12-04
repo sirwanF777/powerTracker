@@ -6,7 +6,6 @@ const apiError = require("../utils/apiError");
 const consumption = async (req, res, next) => {
     try {
         const { userName } = req.body;
-        console.log(userName);
         const { type } = req.params;
         const data = await electricityService.consumption(userName, type);
         if(data) {
