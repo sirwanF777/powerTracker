@@ -7,19 +7,19 @@ const {
     signup,
     login,
     logout,
-} = require("../controllers/userController");
-const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/user/userAuthMiddleware");
-const validateUser = require('../middlewares/user/validateUser');
+} = require("../controllers/userAuthController");
+const { preventSignupIfLoggedIn, preventDuplicateLogin, verifyToken, } = require("../middlewares/userAuthMiddleware");
+const { userValidateSignup, userValidateLogin } = require('../validations/userAuthValidation');
 
 
 router.post(
     "/signup",
-    [preventSignupIfLoggedIn, validateUser, signup]
+    [preventSignupIfLoggedIn, userValidateSignup, signup]
 );
 
 router.post(
     "/login",
-    [preventDuplicateLogin, validateUser, login]
+    [preventDuplicateLogin, userValidateLogin, login]
 );
 
 router.post("/logout", [verifyToken, logout]);

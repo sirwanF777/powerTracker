@@ -1,6 +1,6 @@
 // ./src/middlewares/user/userAuthMiddleware.js
 const jwt = require('jsonwebtoken');
-const apiError = require('../../utils/apiError');
+const apiError = require('../utils/apiError');
 
 
 const preventSignupIfLoggedIn = async (req, res, next) => {
@@ -50,10 +50,12 @@ const verifyToken = async (req, res, next) => {
     try {
         const token = req.cookies.jwt;
         if(token) {
-            jwt.verify(token, process.env.JWT_SECRET, (err) => {
+            jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
                 if(err) {
+                    res.clearCookie('jwt');
                     return res.status(401).json({ message: err.message });
                 } else {
+                    req.body = decode;
                     next();
                 }
             })

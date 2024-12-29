@@ -1,5 +1,5 @@
 // ./src/controllers/userController.js
-const userAuthService = require("../services/userAuthService");
+const userAuthService = require("../services/userService");
 const apiError = require("../utils/apiError");
 
 
