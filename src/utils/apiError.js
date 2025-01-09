@@ -3,12 +3,17 @@ const logger = require('../config/logger');
 
 
 class apiError extends Error {
-    constructor(statusCode, message) {
+    constructor(statusCode, message, details = null) {
         super(message);
         this.statusCode = statusCode;
         this.name = this.constructor.name;
 
-        logger.error(`StatusCode: ${statusCode}, Message: ${message}`);
+        logger.error({
+            statusCode,
+            message,
+            details,
+            timestamp: new Date().toISOString()
+        });
 
         Error.captureStackTrace(this, this.constructor);
     }
